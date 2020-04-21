@@ -241,7 +241,6 @@ class Item extends CI_Model
 
 		$this->db->where('items.deleted', 0);
 
-		// order by name of item
 		$this->db->order_by('items.name', 'asc');
 
 		if($rows > 0)
