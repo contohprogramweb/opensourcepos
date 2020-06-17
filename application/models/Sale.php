@@ -226,13 +226,9 @@ class Sale extends CI_Model
 			else
 			{
 				$this->db->group_start();
-					// customer last name
 					$this->db->like('customer_p.last_name', $search);
-					// customer first name
 					$this->db->or_like('customer_p.first_name', $search);
-					// customer first and last name
 					$this->db->or_like('CONCAT(customer_p.first_name, " ", customer_p.last_name)', $search);
-					// customer company name
 					$this->db->or_like('customer.company_name', $search);
 				$this->db->group_end();
 			}
@@ -434,10 +430,9 @@ class Sale extends CI_Model
 	 */
 	public function get_invoice_count()
 	{
-		$this->db->from('sales');
 		$this->db->where('invoice_number IS NOT NULL');
 
-		return $this->db->count_all_results();
+		return $this->db->count_all_results('sales');
 	}
 
 	/**
@@ -445,10 +440,9 @@ class Sale extends CI_Model
 	 */
 	public function get_sale_by_invoice_number($invoice_number)
 	{
-		$this->db->from('sales');
 		$this->db->where('invoice_number', $invoice_number);
 
-		return $this->db->get();
+		return $this->db->get('sales');
 	}
 
 	/**
@@ -457,11 +451,10 @@ class Sale extends CI_Model
 	public function get_invoice_number_for_year($year = '', $start_from = 0)
 	{
 		$year = $year == '' ? date('Y') : $year;
-		$this->db->select('COUNT( 1 ) AS invoice_number_year');
-		$this->db->from('sales');
+		$this->db->select('COUNT(1) AS invoice_number_year');
 		$this->db->where('DATE_FORMAT(sale_time, "%Y" ) = ', $year);
 		$this->db->where('invoice_number IS NOT NULL');
-		$result = $this->db->get()->row_array();
+		$result = $this->db->get('sales')->row_array();
 
 		return ($start_from + $result['invoice_number_year']);
 	}
@@ -502,7 +495,7 @@ class Sale extends CI_Model
 	{
 		$this->db->where('sale_id', $sale_id);
 
-		return ($this->db->get('sales')->num_rows()==1);
+		return ($this->db->get('sales')->num_rows() === 1);
 	}
 
 	/**
@@ -783,11 +776,10 @@ class Sale extends CI_Model
 	 */
 	public function get_sales_taxes($sale_id)
 	{
-		$this->db->from('sales_taxes');
 		$this->db->where('sale_id', $sale_id);
 		$this->db->order_by('print_sequence', 'asc');
 
-		$query = $this->db->get();
+		$query = $this->db->get('sales_taxes');
 
 		return $query->result_array();
 	}
@@ -874,10 +866,9 @@ class Sale extends CI_Model
 	 */
 	public function get_sale_items($sale_id)
 	{
-		$this->db->from('sales_items');
 		$this->db->where('sale_id', $sale_id);
 
-		return $this->db->get();
+		return $this->db->get('sales_items');
 	}
 
 	/**
@@ -941,10 +932,9 @@ class Sale extends CI_Model
 	 */
 	public function get_sale_payments($sale_id)
 	{
-		$this->db->from('sales_payments');
 		$this->db->where('sale_id', $sale_id);
 
-		return $this->db->get();
+		return $this->db->get('sales_payments');
 	}
 
 	/**
@@ -978,10 +968,9 @@ class Sale extends CI_Model
 	 */
 	public function get_customer($sale_id)
 	{
-		$this->db->from('sales');
 		$this->db->where('sale_id', $sale_id);
 
-		return $this->Customer->get_info($this->db->get()->row()->customer_id);
+		return $this->Customer->get_info($this->db->get('sales')->row()->customer_id);
 	}
 
 	/**
@@ -989,10 +978,9 @@ class Sale extends CI_Model
 	 */
 	public function get_employee($sale_id)
 	{
-		$this->db->from('sales');
 		$this->db->where('sale_id', $sale_id);
 
-		return $this->Employee->get_info($this->db->get()->row()->employee_id);
+		return $this->Employee->get_info($this->db->get('sales')->row()->employee_id);
 	}
 
 	/**
@@ -1001,14 +989,13 @@ class Sale extends CI_Model
 	// TODO change to use new quote_number field
 	public function check_quote_number_exists($quote_number, $sale_id = '')
 	{
-		$this->db->from('sales');
 		$this->db->where('quote_number', $quote_number);
 		if(!empty($sale_id))
 		{
 			$this->db->where('sale_id !=', $sale_id);
 		}
 
-		return ($this->db->get()->num_rows() == 1);
+		return ($this->db->get('sales')->num_rows() === 1);
 	}
 
 	/**
@@ -1016,14 +1003,14 @@ class Sale extends CI_Model
 	 */
 	public function check_invoice_number_exists($invoice_number, $sale_id = '')
 	{
-		$this->db->from('sales');
 		$this->db->where('invoice_number', $invoice_number);
+
 		if(!empty($sale_id))
 		{
 			$this->db->where('sale_id !=', $sale_id);
 		}
 
-		return ($this->db->get()->num_rows() == 1);
+		return ($this->db->get('sales')->num_rows() === 1);
 	}
 
 	/**
@@ -1031,14 +1018,14 @@ class Sale extends CI_Model
 	 */
 	public function check_work_order_number_exists($work_order_number, $sale_id = '')
 	{
-		$this->db->from('sales');
 		$this->db->where('invoice_number', $work_order_number);
+
 		if(!empty($sale_id))
 		{
 			$this->db->where('sale_id !=', $sale_id);
 		}
 
-		return ($this->db->get()->num_rows() == 1);
+		return ($this->db->get('sales')->num_rows() === 1);
 	}
 
 	/**
@@ -1051,10 +1038,9 @@ class Sale extends CI_Model
 			return 0;
 		}
 
-		$this->db->from('giftcards');
 		$this->db->where('giftcard_number', $giftcardNumber);
 
-		return $this->db->get()->row()->value;
+		return $this->db->get('giftcards')->row()->value;
 	}
 
 	/**
@@ -1266,7 +1252,6 @@ class Sale extends CI_Model
 	public function get_quote_number($sale_id)
 	{
 		$this->db->where('sale_id', $sale_id);
-
 		$row = $this->db->get('sales')->row();
 
 		if($row != NULL)
@@ -1282,8 +1267,8 @@ class Sale extends CI_Model
 	 */
 	public function get_work_order_number($sale_id)
 	{
-		$row = $this->db->where('sale_id', $sale_id)
-						->get('sales')->row();
+		$this->db->where('sale_id', $sale_id);
+		$row = $this->db->get('sales')->row();
 
 		if($row !== NULL)
 		{
@@ -1298,8 +1283,8 @@ class Sale extends CI_Model
 	 */
 	public function get_comment($sale_id)
 	{
-		$row = $this->db->where('sale_id', $sale_id)
-						->get('sales')->row();
+		$this->db->where('sale_id', $sale_id);
+		$row = $this->db->get('sales')->row();
 
 		if($row !== NULL)
 		{
@@ -1357,10 +1342,10 @@ class Sale extends CI_Model
 			$this->Dinner_table->release($dinner_table);
 		}
 
-		$this->db->delete('sales_payments', array('sale_id' => $sale_id))
-				->delete('sales_items_taxes', array('sale_id' => $sale_id))
-				->delete('sales_items', array('sale_id' => $sale_id))
-				->delete('sales_taxes', array('sale_id' => $sale_id));
+		$this->db->delete('sales_payments', array('sale_id' => $sale_id));
+		$this->db->delete('sales_items_taxes', array('sale_id' => $sale_id));
+		$this->db->delete('sales_items', array('sale_id' => $sale_id));
+		$this->db->delete('sales_taxes', array('sale_id' => $sale_id));
 
 		$this->db->trans_complete();
 
