@@ -1,4 +1,4 @@
-<style type="text/css">
+<style type='text/css'>
 	 a:hover {
 	  cursor:pointer;
 }
@@ -21,12 +21,12 @@
 				Language Code: <?php echo current_language_code(); ?><br><br>
 				Extensions & Modules:<br>
 				<?php
-					echo "&#187; GD: ", extension_loaded('gd') ? 'Enabled &#x2713' : 'MISSING &#x2717', '<br>';
-					echo "&#187; BC Math: ", extension_loaded('bcmath') ? 'Enabled &#x2713' : 'MISSING &#x2717', '<br>';
-					echo "&#187; INTL: ", extension_loaded('intl') ? 'Enabled &#x2713' : 'MISSING &#x2717', '<br>';
-					echo "&#187; OpenSSL: ", extension_loaded('openssl') ? 'Enabled &#x2713' : 'MISSING &#x2717', '<br>';
-					echo "&#187; MBString: ", extension_loaded('mbstring') ? 'Enabled &#x2713' : 'MISSING &#x2717', '<br>';
-					echo "&#187; Curl: ", extension_loaded('curl') ? 'Enabled &#x2713' : 'MISSING &#x2717', '<br> <br>';
+					echo '&#187; GD: ', extension_loaded('gd') ? 'Enabled &#x2713' : 'MISSING &#x2717', '<br>';
+					echo '&#187; BC Math: ', extension_loaded('bcmath') ? 'Enabled &#x2713' : 'MISSING &#x2717', '<br>';
+					echo '&#187; INTL: ', extension_loaded('intl') ? 'Enabled &#x2713' : 'MISSING &#x2717', '<br>';
+					echo '&#187; OpenSSL: ', extension_loaded('openssl') ? 'Enabled &#x2713' : 'MISSING &#x2717', '<br>';
+					echo '&#187; MBString: ', extension_loaded('mbstring') ? 'Enabled &#x2713' : 'MISSING &#x2717', '<br>';
+					echo '&#187; Curl: ', extension_loaded('curl') ? 'Enabled &#x2713' : 'MISSING &#x2717', '<br> <br>';
 				?>
 				User Configuration:<br>
 				.Browser: <?php
@@ -56,9 +56,9 @@
 						$importcustomers = '../import_customers.csv';
 
 						if (is_writable($logs)) {
-							echo ' -  ' . substr(sprintf("%o",fileperms($logs)),-4) . ' |  ' . '<font color="green">  Writable &#x2713 </font>';
+							echo ' -  ' . substr(sprintf('%o', fileperms($logs)),-4) . ' |  ' . '<font color="green">  Writable &#x2713 </font>';
 						} else {
-							echo ' -  ' . substr(sprintf("%o",fileperms($logs)),-4) . ' |  ' . '<font color="red">	Not Writable &#x2717 </font>';
+							echo ' -  ' . substr(sprintf('%o', fileperms($logs)),-4) . ' |  ' . '<font color="red">	Not Writable &#x2717 </font>';
 						}
 						clearstatcache();
 						if (is_writable($logs) && substr(decoct(fileperms($logs)), -4) >= 751  ) {
@@ -72,9 +72,9 @@
 					&#187; [public/uploads:]
 					<?php
 						if (is_writable($uploads)) {
-							echo ' -  ' . substr(sprintf("%o",fileperms($uploads)),-4) . ' |  ' . '<font color="green">	 Writable &#x2713 </font>';
+							echo ' -  ' . substr(sprintf('%o', fileperms($uploads)),-4) . ' |  ' . '<font color="green">	 Writable &#x2713 </font>';
 						} else {
-							echo ' -  ' . substr(sprintf("%o",fileperms($uploads)),-4) . ' |  ' . '<font color="red"> Not Writable &#x2717 </font>';
+							echo ' -  ' . substr(sprintf('%o', fileperms($uploads)),-4) . ' |  ' . '<font color="red"> Not Writable &#x2717 </font>';
 						}
 						clearstatcache();
 						if (is_writable($uploads) && substr(decoct(fileperms($uploads)), -4) >= 751  ) {
@@ -88,9 +88,9 @@
 					&#187; [public/uploads/item_pics:]
 					<?php
 						if (is_writable($images)) {
-							echo ' -  ' . substr(sprintf("%o",fileperms($images)),-4) . ' |	 ' . '<font color="green"> Writable &#x2713 </font>';
+							echo ' -  ' . substr(sprintf('%o', fileperms($images)),-4) . ' |	 ' . '<font color="green"> Writable &#x2713 </font>';
 						} else {
-							echo ' -  ' . substr(sprintf("%o",fileperms($images)),-4) . ' |	 ' . '<font color="red"> Not Writable &#x2717 </font>';
+							echo ' -  ' . substr(sprintf('%o', fileperms($images)),-4) . ' |	 ' . '<font color="red"> Not Writable &#x2717 </font>';
 						}
 						clearstatcache();
 						if (is_writable($images) && substr(decoct(fileperms($images)), -4) >= 751  ) {
@@ -104,9 +104,9 @@
 					&#187; [import_customers.csv:]
 					<?php
 						if (is_readable($importcustomers)) {
-							echo ' -  ' . substr(sprintf("%o",fileperms($importcustomers)),-4) . ' |  ' . '<font color="green">	 Readable &#x2713 </font>';
+							echo ' -  ' . substr(sprintf('%o', fileperms($importcustomers)),-4) . ' |  ' . '<font color="green">	 Readable &#x2713 </font>';
 						} else {
-							echo ' -  ' . substr(sprintf("%o",fileperms($importcustomers)),-4) . ' |  ' . '<font color="red"> Not Readable &#x2717 </font>';
+							echo ' -  ' . substr(sprintf('%o', fileperms($importcustomers)),-4) . ' |  ' . '<font color="red"> Not Readable &#x2717 </font>';
 						}
 						clearstatcache();
 						if (is_writable($importcustomers) && substr(decoct(fileperms($importcustomers)), -4) >= 751  ) {
@@ -154,7 +154,7 @@
 		</div>
 	</div>
 </div>
-<div align="center">
+<div align='center'>
 		<a class='copy' data-clipboard-action='copy' data-clipboard-target='#issuetemplate'>Copy Info</a> | <a href='https://github.com/opensourcepos/opensourcepos/issues/new' target='_blank'> Report An issue </a>
 		<script>
 			var clipboard = new ClipboardJS('.copy');
